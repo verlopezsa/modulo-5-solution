@@ -83,12 +83,13 @@ document.addEventListener("DOMContentLoaded", function (event) {
 showLoading("#main-content");
 $ajaxUtils.sendGetRequest(
   allCategoriesUrl,
-  [...], // ***** <---- TODO: STEP 1: Substitute [...] ******
+  buildAndShowHomeHTML, // ***** <---- TODO: STEP 1: Substitute [...] ******
   true); // Explicitly setting the flag to get JSON from server processed into an object literal
 });
 // *** finish **
 
-
+//var categories = [{"id":1,"short_name":"L","name":"Lunch","special_instructions":"Sunday-Friday 11:15am-3:00pm. Served with your choice of rice (Vegetable Fried RIce, Steamed Rice, Brown Rice), AND EITHER soup (Hot \u0026 Sour, Wonton, Vegetable, Egg Drop, Chicken Corn Soup) OR veggie egg roll.","url":"https://www.davidchuschinabistro.com/categories/L.json"},{"id":2,"short_name":"A","name":"Soup","special_instructions":"","url":"https://www.davidchuschinabistro.com/categories/A.json"},{"id":3,"short_name":"B","name":"Appetizers","special_instructions":"","url":"https://www.davidchuschinabistro.com/categories/B.json"},{"id":4,"short_name":"SP","name":"Chef's Recommendations","special_instructions":"","url":"https://www.davidchuschinabistro.com/categories/SP.json"},{"id":5,"short_name":"C","name":"Chicken","special_instructions":"","url":"https://www.davidchuschinabistro.com/categories/C.json"},{"id":6,"short_name":"F","name":"Beef","special_instructions":"","url":"https://www.davidchuschinabistro.com/categories/F.json"},{"id":7,"short_name":"V","name":"Veal","special_instructions":"","url":"https://www.davidchuschinabistro.com/categories/V.json"},{"id":8,"short_name":"DK","name":"Duck","special_instructions":"","url":"https://www.davidchuschinabistro.com/categories/DK.json"},{"id":9,"short_name":"VG","name":"Vegetables","special_instructions":"","url":"https://www.davidchuschinabistro.com/categories/VG.json"},{"id":10,"short_name":"CU","name":"Curry","special_instructions":"","url":"https://www.davidchuschinabistro.com/categories/CU.json"},{"id":11,"short_name":"NL","name":"Noodles (Lo Mein)","special_instructions":"","url":"https://www.davidchuschinabistro.com/categories/NL.json"},{"id":12,"short_name":"NF","name":"Mei Fan (Very Fine Noodles)","special_instructions":"","url":"https://www.davidchuschinabistro.com/categories/NF.json"},{"id":13,"short_name":"PF","name":"Pan Fried Noodles","special_instructions":"","url":"https://www.davidchuschinabistro.com/categories/PF.json"},{"id":14,"short_name":"FR","name":"Fried Rice","special_instructions":"","url":"https://www.davidchuschinabistro.com/categories/FR.json"},{"id":15,"short_name":"CM","name":"Chow Mein","special_instructions":"","url":"https://www.davidchuschinabistro.com/categories/CM.json"},{"id":16,"short_name":"FY","name":"Egg Foo Young","special_instructions":"","url":"https://www.davidchuschinabistro.com/categories/FY.json"},{"id":17,"short_name":"SO","name":"Side Orders","special_instructions":"","url":"https://www.davidchuschinabistro.com/categories/SO.json"},{"id":18,"short_name":"DS","name":"Desserts","special_instructions":"","url":"https://www.davidchuschinabistro.com/categories/DS.json"},{"id":19,"short_name":"D","name":"Dinner Combo","special_instructions":"Served with your choice of rice (Vegetable Fried RIce, Steamed Rice, Brown Rice), AND EITHER soup (Hot \u0026 Sour, Wonton, Vegetable, Egg Drop, Chicken Corn Soup) OR veggie egg roll.","url":"https://www.davidchuschinabistro.com/categories/D.json"},{"id":20,"short_name":"SR","name":"Sushi Menu","special_instructions":"Contains raw ingredients. Consuming raw or undercooked meat, poultry, or seafood may increase your risk of food borne illness.","url":"https://www.davidchuschinabistro.com/categories/SR.json"}];
+//buildAndShowHomeHTML(categories);
 // Builds HTML for the home page based on categories array
 // returned from the server.
 function buildAndShowHomeHTML (categories) {
@@ -98,10 +99,12 @@ function buildAndShowHomeHTML (categories) {
     homeHtmlUrl,
     function (homeHtml) {
 
+		
       // TODO: STEP 2: Here, call chooseRandomCategory, passing it retrieved 'categories'
       // Pay attention to what type of data that function returns vs what the chosenCategoryShortName
       // variable's name implies it expects.
       // var chosenCategoryShortName = ....
+	  var chosenCategoryShortName = chooseRandomCategory(categories).short_name;
 
 
       // TODO: STEP 3: Substitute {{randomCategoryShortName}} in the home html snippet with the
@@ -116,12 +119,14 @@ function buildAndShowHomeHTML (categories) {
       // it into the home html snippet.
       //
       // var homeHtmlToInsertIntoMainPage = ....
+	  var homeHtmlToInsertIntoMainPage = insertProperty(homeHtml, "randomCategoryShortName", "'" + chosenCategoryShortName + "'");
 
 
       // TODO: STEP 4: Insert the the produced HTML in STEP 3 into the main page
       // Use the existing insertHtml function for that purpose. Look through this code for an example
       // of how to do that.
       // ....
+	  insertHtml("#main-content", homeHtmlToInsertIntoMainPage);
 
     },
     false); // False here because we are getting just regular HTML from the server, so no need to process JSON.
